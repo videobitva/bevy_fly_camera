@@ -1,5 +1,8 @@
 use bevy::prelude::*;
-use bevy_fly_camera::{FlyCamera, FlyCameraPlugin};
+use bevy_fly_camera::{
+	FlyCamera,
+	FlyCameraPlugin,
+};
 
 // This is a simple example of a camera that flies around.
 // There's an included example of a system that toggles the "enabled"
@@ -57,8 +60,8 @@ fn main() {
 	App::new()
 		.insert_resource(Msaa::Sample4)
 		.add_plugins(DefaultPlugins)
-		.add_startup_system(init)
-		.add_plugin(FlyCameraPlugin)
-		.add_system(toggle_button_system)
+		.add_systems(Startup, init)
+		.add_plugins(FlyCameraPlugin)
+		.add_systems(Update, toggle_button_system)
 		.run();
 }

@@ -50,7 +50,10 @@
 //!
 //! There's also a basic piece of example code included in `/examples/2d.rs`
 
-use bevy::{input::mouse::MouseMotion, prelude::*};
+use bevy::{
+	input::mouse::MouseMotion,
+	prelude::*,
+};
 use cam2d::camera_2d_movement_system;
 use util::movement_axis;
 
@@ -115,7 +118,7 @@ impl Default for FlyCamera {
 			key_left: KeyCode::A,
 			key_right: KeyCode::D,
 			key_up: KeyCode::Space,
-			key_down: KeyCode::LShift,
+			key_down: KeyCode::ShiftLeft,
 			enabled: true,
 		}
 	}
@@ -201,7 +204,7 @@ fn mouse_motion_system(
 	mut query: Query<(&mut FlyCamera, &mut Transform)>,
 ) {
 	let mut delta: Vec2 = Vec2::ZERO;
-	for event in mouse_motion_event_reader.iter() {
+	for event in mouse_motion_event_reader.read() {
 		delta += event.delta;
 	}
 	if delta.is_nan() {
@@ -231,7 +234,7 @@ Include this plugin to add the systems for the FlyCamera bundle.
 
 ```no_compile
 fn main() {
-	App::build().add_plugin(FlyCameraPlugin);
+	App::build().add_plugins(FlyCameraPlugin);
 }
 ```
 
@@ -241,9 +244,10 @@ pub struct FlyCameraPlugin;
 
 impl Plugin for FlyCameraPlugin {
 	fn build(&self, app: &mut App) {
-		app
-			.add_system(camera_movement_system)
-			.add_system(camera_2d_movement_system)
-			.add_system(mouse_motion_system);
+		app.add_systems(Update, (
+			camera_movement_system,
+			camera_2d_movement_system,
+			mouse_motion_system,
+		));
 	}
 }

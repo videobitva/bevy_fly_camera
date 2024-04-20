@@ -1,5 +1,8 @@
 use bevy::prelude::*;
-use bevy_fly_camera::{FlyCamera2d, FlyCameraPlugin};
+use bevy_fly_camera::{
+	FlyCamera2d,
+	FlyCameraPlugin,
+};
 
 fn init(
 	mut commands: Commands,
@@ -31,7 +34,7 @@ fn main() {
 	App::new()
 		.insert_resource(Msaa::Sample4)
 		.add_plugins(DefaultPlugins)
-		.add_startup_system(init)
-		.add_plugin(FlyCameraPlugin)
+		.add_systems(Startup, init)
+		.add_plugins(FlyCameraPlugin)
 		.run();
 }
