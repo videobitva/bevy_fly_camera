@@ -7,7 +7,6 @@ use bevy_fly_camera::{
 fn init(
 	mut commands: Commands,
 	asset_server: Res<AssetServer>,
-	mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
 	commands
 		.spawn(Camera2dBundle::default())
